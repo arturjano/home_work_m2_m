@@ -1,31 +1,19 @@
-package pl.janota.homework2;
+package pl.janota.home_work_m2;
 
 public class Product {
 
-    private String name;
-    private int price;
+    private final String name;
+    private final int price;
 
     public Product(String name, int price) {
         this.name = name;
         this.price = price;
     }
 
-    public String getName() {
-        return name;
-    }
 
     public int getPrice() {
         return price;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     @Override
     public String toString() {
         return "Produkt: " + name + '\n' +

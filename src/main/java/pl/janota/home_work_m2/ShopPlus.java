@@ -1,4 +1,4 @@
-package pl.janota.homework2;
+package pl.janota.home_work_m2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
@@ -21,15 +19,15 @@ public class ShopPlus {
     @Value("${tax-info.rate}")
     private double vatRate;
 
-    private Shop shop;
+    private final ShopService shopService;
 
     @Autowired
-    public ShopPlus(Shop shop) {
-        this.shop = shop;
+    public ShopPlus(ShopService shopService) {
+        this.shopService = shopService;
     }
 
     private void showVat() {
-        AtomicInteger summaryPrice = shop.getSummaryPrice();
+        AtomicInteger summaryPrice = shopService.getSummaryPrice();
         double vat = vatRate/100*summaryPrice.doubleValue()/(1+vatRate/100);
         BigDecimal vatFormatted = new BigDecimal(vat).setScale(2, RoundingMode.HALF_UP);
         System.out.println("W tym VAT (" + vatRate +"%): " + vatFormatted + " PLN");
@@ -37,9 +35,9 @@ public class ShopPlus {
 
     @EventListener(ApplicationReadyEvent.class)
     public void runShop() {
-        shop.showBasket();
-        shop.showShopVersion();
-        shop.showSummaryPrice();
+        shopService.showBasket();
+        shopService.showShopVersion();
+        shopService.showSummaryPrice();
         showVat();
     }
 
