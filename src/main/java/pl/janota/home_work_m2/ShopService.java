@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -40,23 +41,42 @@ public class ShopService {
         return (int) Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    public void addProduct(String name, int price) {
+    private void addProduct(String name, int price) {
         Product product = new Product(name, price);
         productList.add(product);
     }
 
-    public void showShopVersion() {
-        System.out.println("Wersja sklepu: " + name);
+    public void addProducts() {
+        Scanner scanner = new Scanner(System.in);
+        String userInput;
+        do {
+            System.out.println("Wprowadź nazwę nowego produktu lub idź do kasy (wpisz \"kasa\"):");
+            userInput = scanner.nextLine();
+            if (!userInput.equals("kasa")) {
+                addProduct(userInput, getPrice());
+                showBasket();
+            }
+
+        } while (!userInput.equals("kasa"));
+    }
+
+    public void showShopWelcome() {
+        System.out.println("Dzień dobry! Wita Cię Twój sklep " + name);
+    }
+
+    public void showShopFarewell() {
+        System.out.println("Do widzenia! Żegna Cię Twój sklep " + name);
     }
 
     public void showSummaryPrice() {
-        System.out.println("Cena sumaryczna koszyka: " + getSummaryPrice());
+        System.out.println("Do zapłaty: " + getSummaryPrice() + " PLN");
     }
 
     public void showBasket() {
+        System.out.println("Aktualnie posiadasz następujące produkty w koszyku:");
         productList.forEach(System.out::println);
+        showSummaryPrice();
     }
-
 
 
 }

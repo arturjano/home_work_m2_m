@@ -28,17 +28,18 @@ public class ShopPlus {
 
     private void showVat() {
         AtomicInteger summaryPrice = shopService.getSummaryPrice();
-        double vat = vatRate/100*summaryPrice.doubleValue()/(1+vatRate/100);
+        double vat = vatRate / 100 * summaryPrice.doubleValue() / (1 + vatRate / 100);
         BigDecimal vatFormatted = new BigDecimal(vat).setScale(2, RoundingMode.HALF_UP);
-        System.out.println("W tym VAT (" + vatRate +"%): " + vatFormatted + " PLN");
+        System.out.println("Cena do zapłaty: " + summaryPrice + " PLN w tym VAT (" + vatRate + "%): " + vatFormatted + " PLN");
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void runShop() {
+        shopService.showShopWelcome();
         shopService.showBasket();
-        shopService.showShopVersion();
-        shopService.showSummaryPrice();
+        shopService.addProducts();
         showVat();
+        shopService.showShopFarewell();
     }
 
 }

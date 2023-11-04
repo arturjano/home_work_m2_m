@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Profile("Start")
-public class ShopStart{
+public class ShopStart {
 
     private final ShopService shopService;
 
@@ -19,9 +19,11 @@ public class ShopStart{
 
     @EventListener(ApplicationReadyEvent.class)
     public void runShop() {
+        shopService.showShopWelcome();
         shopService.showBasket();
-        shopService.showShopVersion();
+        shopService.addProducts();
         shopService.showSummaryPrice();
+        shopService.showShopFarewell();
     }
 
 }

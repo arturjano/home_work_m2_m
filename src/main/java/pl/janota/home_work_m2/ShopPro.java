@@ -29,26 +29,24 @@ public class ShopPro {
         this.shopService = shopService;
     }
 
-    private void showVat() {
+    public void showDiscountAndVat() {
         AtomicInteger summaryPrice = shopService.getSummaryPrice();
-        double vat = vatRate / 100 * summaryPrice.doubleValue() / (1 + vatRate / 100);
+        double discountPrice = summaryPrice.doubleValue() - discountRate / 100 * summaryPrice.doubleValue();
+        System.out.println("Sklep udzielił Ci rabatu " + discountRate + "%! Cena z uwzględnionym rabatem " + discountPrice + " PLN");
+
+        double vat = vatRate / 100 * discountPrice / (1 + vatRate / 100);
         BigDecimal vatFormatted = new BigDecimal(vat).setScale(2, RoundingMode.HALF_UP);
         System.out.println("W tym VAT (" + vatRate + "%): " + vatFormatted + " PLN");
     }
 
-    public void showDiscount() {
-        AtomicInteger summaryPrice = shopService.getSummaryPrice();
-        double discountPrice = summaryPrice.doubleValue() - discountRate / 100 * summaryPrice.doubleValue();
-        System.out.println("Cena z uwzględnionym rabatem (" + discountRate + "%): " + discountPrice + " PLN");
-    }
-
     @EventListener(ApplicationReadyEvent.class)
     public void runShop() {
+
+        shopService.showShopWelcome();
         shopService.showBasket();
-        shopService.showShopVersion();
-        shopService.showSummaryPrice();
-        showDiscount();
-        showVat();
+        shopService.addProducts();
+        showDiscountAndVat();
+        shopService.showShopFarewell();
 
     }
 
