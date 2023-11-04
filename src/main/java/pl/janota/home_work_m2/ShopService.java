@@ -42,8 +42,10 @@ public class ShopService {
     }
 
     private void addProduct(String name, int price) {
-        Product product = new Product(name, price);
-        productList.add(product);
+        if (!name.isEmpty()) {
+            Product product = new Product(name, price);
+            productList.add(product);
+        }
     }
 
     public void addProducts() {
